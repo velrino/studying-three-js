@@ -33,7 +33,7 @@ function Planet(props: any) {
             onPointerOver={(event) => (event.stopPropagation(), hover(true))}
             onPointerOut={(event) => hover(false)}>
             <sphereGeometry args={[0.5, 32, 32]} />
-            <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
+            <meshStandardMaterial color={hovered ? props.colorHovered : props.colorDefault} />
         </mesh>
     )
 }
@@ -48,9 +48,9 @@ export function SolarSystemComponent() {
                 <Suspense fallback={null}>
                     <Stars />
                 </Suspense>
-                <Planet position={[-3, 0, 0]} />
-                <Planet position={[3, 0, 0]} />
-                <Planet position={[0, 0, 0]} scale={2} />
+                <Planet position={[-3, 0, 0]} colorDefault='#A22B0F' />
+                <Planet position={[3, 0, 0]} colorDefault='#1F9FC7' />
+                <Planet position={[0, 0, 0]} colorDefault='#FC9601' colorHovered='#FC9601' scale={2} />
                 <OrbitControls />
             </Canvas>
         </div>
