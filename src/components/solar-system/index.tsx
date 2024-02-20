@@ -1,17 +1,28 @@
-import { useRef, useState } from 'react'
-import { Mesh } from 'three'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { useRef, useState, Suspense } from 'react'
+import { Mesh, TextureLoader, BackSide } from 'three'
+import { Canvas, useFrame, useLoader } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
+
+function Stars() {
+    const texture = useLoader(TextureLoader, "textures/galaxy.png");
+
+    return (
+        <mesh>
+            <sphereGeometry args={[1000, 32, 32]} />
+            <meshBasicMaterial map={texture} side={BackSide} transparent={true} />
+        </mesh>
+    );
+}
 
 function Planet(props: any) {
     const ref = useRef<Mesh>()
     const [hovered, hover] = useState(false)
     const [clicked, click] = useState(false)
-    
+
     useFrame((state, delta) => {
-      if (ref.current) {
-        ref.current.rotation.x += delta;
-      }
+        if (ref.current) {
+            ref.current.rotation.x += delta;
+        }
     })
 
     return (
@@ -34,7 +45,10 @@ export function SolarSystemComponent() {
                 <ambientLight intensity={Math.PI / 2} />
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
                 <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-                <Planet position={[-3, 0, 0]}  />
+                <Suspense fallback={null}>
+                    <Stars />
+                </Suspense>
+                <Planet position={[-3, 0, 0]} />
                 <Planet position={[3, 0, 0]} />
                 <Planet position={[0, 0, 0]} scale={2} />
                 <OrbitControls />
