@@ -5,10 +5,8 @@ export const RoutesComponent: React.FC = () => {
     return (
         <Router>
             <Routes>
-                <Route path='/' >
-                    <Route path='*' element={<Navigate replace to="/solar-system" />} />
-                    <Route path="/solar-system" element={<SolarSystemPage />} />
-                </Route>
+                <Route path='*' element={<Navigate replace to="/solar-system" />} />
+                <Route path="/solar-system" element={<SolarSystemPage />} />
             </Routes>
         </Router>
     );
